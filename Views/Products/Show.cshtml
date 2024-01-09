@@ -1,0 +1,141 @@
+﻿
+@* Afisarea unui articol impreuna cu categoria din care face *@
+<div class="d-flex justify-content-center">
+
+    <a class="btn btn-outline-success" href="/Products/Index/">Afisare produse</a>
+
+    <a class="btn btn-outline-success" href="/Products/New">Adauga produs</a>
+
+</div>
+
+<br />
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h3 class="card-title alert-success py-3 px-3 rounded-2">@ViewBag.Product.Name</h3>
+
+        <div class="card-text">@ViewBag.Product.Description</div>
+
+        <div class="d-flex justify-content-between flex-row mt-5">
+
+            <div><i class="bi bi-globe"></i> @ViewBag.Category.CategoryName</div>
+
+        </div>
+        <div class="d-flex justify-content-between flex-row mt-5">
+
+            <div><div> @ViewBag.Product.Price</div>LEI</div>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    <div class="d-flex flex-row justify-content-between">
+
+        <a class="btn btn-success" href="/Products/Edit/@ViewBag.Product.Id">Editeaza articol</a>
+
+        <form method="post" action="/Products/Delete/@ViewBag.Product.Id">
+
+            <button class="btn btn-danger" type="submit">Sterge articol</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<br />
+<br />
+
+@* Afisare comentarii impreuna cu butoanele de editare si stergere *@
+
+@foreach (var rev in ViewBag.Product.Reviews)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+
+                <div>
+
+                    <p>@rev.Content</p>
+                    <small>@rev.Date</small>
+
+                </div>
+                <br>
+
+                <div class="d-flex">
+
+                    <div>
+
+                        <a class="btn btn-outline-primary" href="/Reviews/Edit/@rev.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                    </div>
+
+                    <div>
+
+                        <form method="post" action="/Reviews/Delete/@rev.Id">
+
+                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <br />
+
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+}
+
+
+@* Afisarea formularului in care se poate adauga un comentariu *@
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <form method="post" action="/Reviews/New">
+
+                    <div class="card-body">
+
+                        <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
+
+                        <label>Continut comentariu</label>
+                        <br />
+
+                        <textarea class="form-control" name="Content"></textarea>
+                        <br />
+
+                        <button class="btn btn-success " type="submit">Adauga comentariul</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div>
