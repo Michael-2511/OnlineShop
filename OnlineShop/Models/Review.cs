@@ -7,6 +7,8 @@ namespace OnlineShop.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Continutul recenziei este obligatoriu")]
         public string Content { get; set; }
+
+        public virtual float Stars { get; set; }
         public DateTime Date { get; set; }
         // un review apartine unui produs
         public int? ProductId { get; set; }

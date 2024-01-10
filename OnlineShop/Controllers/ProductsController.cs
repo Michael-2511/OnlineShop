@@ -50,6 +50,19 @@ namespace OnlineShop.Controllers
                                          .Include("Reviews.User")
                                          .Where(prod => prod.Id == id)
                                          .First();
+            float sum = 0, number_of_reviews = 0;
+            foreach(var star in product.Reviews)
+            {
+                if(star.Stars!=null && star.Stars!=0)
+                {
+                    number_of_reviews++;
+                    sum += star.Stars;
+                }
+            }
+            if(number_of_reviews>0)
+            {
+                product.Rating = (float)Math.Round((sum / number_of_reviews), 2);
+            }
 
             ViewBag.Product = product;
             ViewBag.Category = product.Category;

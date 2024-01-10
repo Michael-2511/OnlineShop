@@ -10,6 +10,13 @@
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:OnlineShop4",
       "dynamicId": null
+    },
+    "mssql2": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop5",
+      "dynamicId": null
     }
   }
 }

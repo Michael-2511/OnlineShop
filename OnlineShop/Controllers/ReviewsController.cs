@@ -49,7 +49,7 @@ namespace OnlineShop.Controllers
         public IActionResult Delete(int id)
         {
             Review rev = db.Reviews.Find(id);
-            if (rev.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrotor"))
+            if (rev.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrator"))
             {
                 db.Reviews.Remove(rev);
                 db.SaveChanges();

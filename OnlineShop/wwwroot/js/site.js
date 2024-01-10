@@ -39,3 +39,13 @@
         }//end of while loop
     })();//end of function
 })
+
+document.getElementById('myTextarea').addEventListener('input', function () {
+    var submitBtn = document.getElementById('submitBtn');
+    if (this.value.length > 0) {
+        submitBtn.style.display = 'block';
+    } else {
+        submitBtn.style.display = 'none';
+    }
+});
+

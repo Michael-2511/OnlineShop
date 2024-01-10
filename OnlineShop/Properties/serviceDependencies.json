@@ -8,6 +8,11 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:OnlineShop4",
       "dynamicId": null
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop5",
+      "dynamicId": null
     }
   }
 }
