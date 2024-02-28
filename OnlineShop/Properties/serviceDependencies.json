@@ -4,14 +4,44 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection"
     },
-    "mssql3": {
+    "mssql5": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:OnlineShop4",
+      "connectionId": "ConnectionStrings:OnlineShop7",
+      "dynamicId": null
+    },
+    "mssql6": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop8",
       "dynamicId": null
     },
     "mssql2": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:OnlineShop5",
+      "connectionId": "ConnectionStrings:OnlineShop9",
+      "dynamicId": null
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop10",
+      "dynamicId": null
+    },
+    "mssql4": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop11",
+      "dynamicId": null
+    },
+    "mssql7": {
+      "type": "mssql",
+      "connectionId": "OnlineShop12",
+      "dynamicId": null
+    },
+    "mssql8": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop13",
+      "dynamicId": null
+    },
+    "mssql9": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:OnlineShop17",
       "dynamicId": null
     }
   }

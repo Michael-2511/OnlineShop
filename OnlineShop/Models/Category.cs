@@ -9,7 +9,7 @@ namespace OnlineShop.Models
         [Required(ErrorMessage = "Numele categoriei este obligatoriu")]
         public string CategoryName { get; set; }
         public virtual ICollection<Product>? Products { get; set; }
+        public virtual ICollection<Request>? Requests { get; set; }
+
     }
 }
-
-

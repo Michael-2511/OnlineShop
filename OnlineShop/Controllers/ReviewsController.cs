@@ -22,28 +22,7 @@ namespace OnlineShop.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        //[Authorize(Roles = "Inregistrat,Colaborator,Administrator")]
-        //[HttpPost]
-        //public IActionResult New(Review rev)
-        //{
-        //    rev.Date = DateTime.Now;
-        //    rev.UserId =_userManager.GetUserId(User);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Reviews.Add(rev);
-        //        db.SaveChanges();
-        //        return Redirect("/Products/Show/" + rev.ProductId);
-        //    }
-
-        //    else
-        //    {
-        //        return Redirect("/Products/Show/" + rev.ProductId);
-        //    }
-
-        //}
-
-        // Stergerea unui comentariu asociat unui articol din baza de date
+        // Stergerea unui comentariu asociat unui produsdin baza de date
         [HttpPost]
         [Authorize(Roles = "Inregistrat,Colaborator,Administrator")]
         public IActionResult Delete(int id)

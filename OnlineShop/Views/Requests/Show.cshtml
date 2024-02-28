@@ -1,5 +1,68 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿﻿@* @model OnlineShop.Models.Product *@
+
+@if (TempData["message"] != null)
+{
+    <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
+        @ViewBag.Message
+    </div>
 }
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h3 class="card-title alert-success py-3 px-3 rounded-2">@ViewBag.Request.Id</h3>
+
+        <div class="card-text">@ViewBag.Request.Description</div>
+
+        <div class="card-text">@ViewBag.Request.Status</div>
+
+        <div class="card-text">@ViewBag.Request.ProductDescription</div>
+
+        <div class="card-text">@ViewBag.Request.ProductPrice</div>
+
+        <div class="card-text">@ViewBag.Category.CategoryName</div>
+
+    </div>
+
+    <hr />
+
+    @if (ViewBag.AfisareButoane == true)
+    {
+        @* Daca este colaborator si a trimis cererea *@
+        @if (ViewBag.Request.UserId == ViewBag.UserCurent)
+        {
+            <div class="d-flex flex-row justify-content-between">
+                @if (ViewBag.Request.Status == "In asteptare")
+                {
+                    <a class="btn btn-success" href="/Requests/Edit/@ViewBag.Request.Id">Editeaza cerere</a>
+
+                    <form method="post" action="/Requests/Delete/@ViewBag.Request.Id">
+
+                        <button class="btn btn-danger" type="submit">Sterge cerere</button>
+
+                    </form>
+                }
+            </div>
+        }
+    }
+    @* Daca este admin *@
+    else if (ViewBag.EsteAdmin)
+    {
+        <div class="d-flex flex-row justify-content-between">
+            @if (ViewBag.Request.Status == "In asteptare")
+            {
+                <form method="post" action="/Requests/Accept/@ViewBag.Request.Id">
+                    <button class="btn btn-success" type="submit">Accepta cerere</button>
+                </form>
+
+                <form method="post" action="/Requests/Reject/@ViewBag.Request.Id">
+                    <button class="btn btn-danger" type="submit">Respinge cerere</button>
+                </form>
+            }
+        </div>
+    }
+</div>
+
+<br />
+<br />

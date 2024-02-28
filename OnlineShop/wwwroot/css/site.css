@@ -1,13 +1,57 @@
 html {
     font-size: 14px;
 }
+.card-title {
+    background-color: #6495ED !important;
+    color:white;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #f8f8f8;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.banner {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.banner h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    /*margin-top: 10px;*/
+}
+
 
 @media (min-width: 768px) {
     html {
         font-size: 16px;
     }
 }
-
 html {
     position: relative;
     min-height: 100%;
@@ -15,6 +59,8 @@ html {
 
 body {
     margin-bottom: 60px;
+}
+.card-text{
 }
 
 
@@ -27,7 +73,7 @@ body {
 }
 
 .navbar {
-    background-color: #dfe6e9 !important;
+    background-color: #6495ED !important;
     border: none !important;
     box-shadow: 0 3px 12px #636e72 !important;
 }
@@ -68,3 +114,25 @@ a.nav-link {
 .my-star:not(.is-active):hover {
     color: #fb8900;
 }
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    max-width: 100%;
+    height: auto;
+}
+.dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+

@@ -1,8 +1,18 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="grid text-center" style="--bs-columns: 3;">
+    @foreach (var product in ViewBag.Products)
+    {
+        <h3 class="card-title alert-success py-3 px-3 rounded-2">@product.Name</h3>
+        <div class="card-text">@product.Price<div>LEI</div></div>
+        <div><i class="bi bi-globe"></i> @product.Category.CategoryName</div>
+        <div><i class="bi bi-person"></i> @product.User.UserName</div>
+        <a class="btn btn-success" href="/Products/Show/@product.Id">Afisare produs</a>
+
+        <br />
+        <br />
+    }
 </div>

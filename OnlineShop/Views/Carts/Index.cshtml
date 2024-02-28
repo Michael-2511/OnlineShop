@@ -1,5 +1,99 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model OnlineShop.Models.Cart
+<br />
+<br />
+
+
+<br />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
+        @ViewBag.Message
+    </div>
 }
+
+<br />
+@{
+    float price = 0;
+}
+
+<div class="row">
+    @if (Model.CartProducts.Count > 0)
+    {
+        @foreach (var prod in Model.CartProducts)
+        {
+            <div class="col-4 mb-4">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <img src=@prod.Product.Picture class="card-title alert-success py-3 px-3 rounded-2">
+
+                        <h5 class="card-title">@prod.Product.Name</h5>
+
+                        <h5 class="card-title"><div>@prod.Product.Price LEI</div></h5>
+                        <h5 class="card-title"><div>Cantitate: @prod.Quantity </div></h5>
+
+                        <div class="d-flex">
+
+                            <div>
+
+                                <a class="btn btn-outline-primary" href="/Carts/Edit/@prod.ProductId"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                            </div>
+
+                            <div>
+
+                                <form method="post" action="/Carts/Delete/@prod.ProductId">
+
+                                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+                        @{
+                            price += prod.Product.Price *prod.Quantity;
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        }
+        <h5 class="card-title">Pretul total este:</h5>
+        <h5 class="card-title"><div>@price LEI</div></h5>
+
+        <form enctype="multipart/form-data">
+
+            <label>Adresa</label>
+            <input type="text" />
+            <br />
+            <br />
+            <label>Singura modalitate de plata este ramburs</label>
+            <br />
+            <br />
+        </form>
+
+        <div>
+
+            <a class="btn btn-outline-primary" href="/Carts/Show"><i class="bi bi-pencil-square">Plaseaza comanda</i></a>
+
+        </div>
+    }
+    else
+    {
+        <div class="col-4 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+                    Nu aveti produse in cos
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

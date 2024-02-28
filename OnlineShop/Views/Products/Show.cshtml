@@ -5,6 +5,8 @@
 
     <div class="card-body">
 
+        @* <img src=@ViewBag.Product.Picture alt=@ViewBag.Product.Name class="card-title alert-success py-3 px-3 rounded-2"> *@
+
         <h3 class="card-title alert-success py-3 px-3 rounded-2">@ViewBag.Product.Name</h3>
 
         <div class="card-text">@ViewBag.Product.Description</div>
@@ -38,11 +40,22 @@
 
         </div>
     }
+    @if (ViewBag.EsteInregistrat)
+    {
+        <form method="post" asp-controller="Products" asp-action="AddToCart">
+            <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
+        <div class="d-flex flex-row justify-content-center p-3 border-1 border-top">
+            <input type="submit" class="btn btn-success alert-success" value="Adauga in cos" />
+        </div>
+        </form>
+    }
 
 </div>
 
 <br />
 <br />
+
+
 
 @* Afisare comentarii impreuna cu butoanele de editare si stergere *@
 
@@ -121,32 +134,30 @@
 
 @* Afisarea formularului in care se poate adauga un comentariu *@
 
-<div class="container">
+@{
+    bool verificare = false;
+}
+@foreach (var rev in ViewBag.Product.Reviews)
+{
+    @if (rev.UserId == ViewBag.UserCurent)
+        verificare = true;
+}
+@if (verificare == false)
+{
+    <div class="container">
 
-    <div class="row">
+        <div class="row">
 
-        <div class="col-md-2"></div>
+            <div class="col-md-2"></div>
 
-        <div class="col-md-8">
+            <div class="col-md-8">
 
-            <div class="card">
+                <div class="card">
 
-                <form method="post" action="/Products/Show/@ViewBag.Product.Id">
+                    <form method="post" action="/Products/Show/@ViewBag.Product.Id">
 
-                    <div class="card-body">
-
-                        <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
-
-                        @{
-                            bool verificare = false;
-                        }
-                        @foreach (var rev in ViewBag.Product.Reviews)
-                        {
-                            @if (rev.UserId == ViewBag.UserCurent)
-                                verificare = true;
-                        }
-                        @if (verificare == false)
-                        {
+                        <div class="card-body">
+                            <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
                             <p class="star-rating">
                                 <i class="my-star star-1" data-star="1"></i>
                                 <i class="my-star star-2" data-star="2"></i>
@@ -155,30 +166,26 @@
                                 <i class="my-star star-5" data-star="5"></i>
                             </p>
                             <input type="number" hidden id="output" name="Stars">
-                        }
-                        else
-                        {
-                            <input type="number" hidden name="Stars" value=0 />
-                        }
 
-                        <label>Continut comentariu</label>
-                        <br />
+                            <label>Continut comentariu</label>
+                            <br />
 
-                        <textarea class="form-control" id="myTextarea" name="Content"></textarea>
-                        <br />
+                            <textarea class="form-control" id="myTextarea" name="Content"></textarea>
+                            <br />
 
-                        <button class="btn btn-success " id="submitBtn" type="submit" style="display:none">Adauga comentariul</button>
+                            <button class="btn btn-success " id="submitBtn" type="submit" style="display:none">Adauga comentariul</button>
 
-                    </div>
+                        </div>
 
-                </form>
+                    </form>
+
+                </div>
 
             </div>
 
+            <div class="col-md-2"></div>
+
         </div>
 
-        <div class="col-md-2"></div>
-
     </div>
-
-</div>
+}

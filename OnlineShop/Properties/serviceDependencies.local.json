@@ -4,18 +4,60 @@
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:DefaultConnection"
     },
-    "mssql3": {
+    "mssql5": {
       "serviceConnectorResourceId": "",
       "secretStore": null,
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:OnlineShop4",
+      "connectionId": "ConnectionStrings:OnlineShop7",
+      "dynamicId": null
+    },
+    "mssql6": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop8",
       "dynamicId": null
     },
     "mssql2": {
       "serviceConnectorResourceId": "",
       "secretStore": null,
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:OnlineShop5",
+      "connectionId": "ConnectionStrings:OnlineShop9",
+      "dynamicId": null
+    },
+    "mssql3": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop10",
+      "dynamicId": null
+    },
+    "mssql4": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop11",
+      "dynamicId": null
+    },
+    "mssql7": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "OnlineShop12",
+      "dynamicId": null
+    },
+    "mssql8": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop13",
+      "dynamicId": null
+    },
+    "mssql9": {
+      "serviceConnectorResourceId": "",
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:OnlineShop17",
       "dynamicId": null
     }
   }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data;
 
@@ -11,9 +12,10 @@ using OnlineShop.Data;
 namespace OnlineShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240111171124_OnlineShop9")]
+    partial class OnlineShop9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,8 +240,11 @@ namespace OnlineShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<float?>("Price")
-                        .HasColumnType("real");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -251,32 +256,6 @@ namespace OnlineShop.Data.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("OnlineShop.Models.CartProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id", "ProductId", "CartId");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("OnlineShop.Models.Category", b =>
@@ -303,6 +282,9 @@ namespace OnlineShop.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("CategoryId")
                         .IsRequired()
@@ -338,7 +320,11 @@ namespace OnlineShop.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("RequestId");
 
                     b.HasIndex("UserId");
 
@@ -354,12 +340,15 @@ namespace OnlineShop.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("CategoryId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductCategoryId")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductDescription")
                         .IsRequired()
@@ -480,38 +469,27 @@ namespace OnlineShop.Data.Migrations
             modelBuilder.Entity("OnlineShop.Models.Cart", b =>
                 {
                     b.HasOne("OnlineShop.Models.ApplicationUser", "User")
-                        .WithOne("Cart")
+                        .WithOne("Carts")
                         .HasForeignKey("OnlineShop.Models.Cart", "UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineShop.Models.CartProduct", b =>
-                {
-                    b.HasOne("OnlineShop.Models.Cart", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineShop.Models.Product", "Product")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("OnlineShop.Models.Product", b =>
                 {
+                    b.HasOne("OnlineShop.Models.Cart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
+
                     b.HasOne("OnlineShop.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("OnlineShop.Models.Request", null)
+                        .WithMany("Products")
+                        .HasForeignKey("RequestId");
 
                     b.HasOne("OnlineShop.Models.ApplicationUser", "User")
                         .WithMany("Products")
@@ -525,10 +503,8 @@ namespace OnlineShop.Data.Migrations
             modelBuilder.Entity("OnlineShop.Models.Request", b =>
                 {
                     b.HasOne("OnlineShop.Models.Category", "Category")
-                        .WithMany("Requests")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("OnlineShop.Models.ApplicationUser", "User")
                         .WithMany("Requests")
@@ -554,7 +530,7 @@ namespace OnlineShop.Data.Migrations
 
             modelBuilder.Entity("OnlineShop.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Cart");
+                    b.Navigation("Carts");
 
                     b.Navigation("Products");
 
@@ -565,21 +541,22 @@ namespace OnlineShop.Data.Migrations
 
             modelBuilder.Entity("OnlineShop.Models.Cart", b =>
                 {
-                    b.Navigation("CartProducts");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("OnlineShop.Models.Category", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("Requests");
                 });
 
             modelBuilder.Entity("OnlineShop.Models.Product", b =>
                 {
-                    b.Navigation("CartProducts");
-
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("OnlineShop.Models.Request", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,53 +1,44 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "New";
 }
 
-<h2>Cerere adaugare produs</h2>
-<br />
-
 <form method="post" action="/Requests/New">
 
-    <label>Nume produs</label>
-    <input type="text" name="Name" />
-    <br />
-    <br />
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="Description" placeholder="">
+        <label>De ce vreti ca acest produs sa fie adaugat in magazinul nostru online?</label>
+    </div>
 
-    <label>Descriere produs</label>
-    <textarea name="Description"></textarea>
+    <t>Detalii produs</t>
     <br />
-    <br />
-    <label>Pret</label>
-    <textarea name="Price"></textarea>
-    <br />
-    <br />
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="ProductName" placeholder="">
+        <label>Nume produs</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <textarea class="form-control" name="ProductDescription" placeholder="" style="height: 100px; margin-bottom: 15px;"></textarea>
+        <label>Descriere produs</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" class="form-control" name="ProductPrice" placeholder="">
+        <label>Pret</label>
+    </div>
 
     <label>Imagine</label>
-    <textarea name="Picture"></textarea>
+    <textarea name="ProductPicture"></textarea>
     <br />
     <br />
 
-    @*
-    <input type="hidden" name="Date" value="@DateTime.Now" />
-    <br />
-    *@
-
-    <label>Selectati categoria</label>
-
-    @*
-    Proprietatea name primeste valoarea CategoryId, si anume id-ul categoriei, fiind atributul care
-    se paseaza catre Controller prin post
-    Proprietatea value are id-ul categoriei si valoarea care se afiseaza in dropdown (numele categoriei)
-    *@
-
-    <select name="CategoryId">
-
+    <select class="form-select" name="CategoryId" style="margin-bottom: 15px">
         @foreach (var item in ViewBag.Categories)
         {
             <option value="@item.Id">@item.CategoryName</option>
         }
-
     </select>
-    <br />
-    <button class="btn btn-success" type="submit">Adauga articol</button>
+
+
+    <button class="btn btn-success" type="submit">Trimite cerere</button>
 
 </form>

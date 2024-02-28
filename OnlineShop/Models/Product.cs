@@ -23,10 +23,12 @@ namespace OnlineShop.Models
         public float Price { get; set; }
 
         [Required(ErrorMessage = "Produsul trebuie sa aiba o imagine")]
-        public string Picture { get; set; }
+        public string? Picture { get; set; }
 
         [Required(ErrorMessage = "Categoria este obligatorie")]
         public int? CategoryId { get; set; }
+        public string? RequestStatus { get; set; }
+        public int? RequestId { get; set; }
 
         public virtual ApplicationUser? User { get; set; }
         public virtual Category? Category { get; set; }
@@ -40,6 +42,8 @@ namespace OnlineShop.Models
         // lista de categorii
         [NotMapped]
         public IEnumerable<SelectListItem>? Categ { get; set; }
+
+        public virtual ICollection<CartProduct>? CartProducts { get; set; }
 
     }
 }

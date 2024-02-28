@@ -125,7 +125,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
 
                     // PASUL 9 - useri si roluri (adaugarea rolului la inregistrare)
-                    await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddToRoleAsync(user, "Inregistrat");
 
 
                     var userId = await _userManager.GetUserIdAsync(user);

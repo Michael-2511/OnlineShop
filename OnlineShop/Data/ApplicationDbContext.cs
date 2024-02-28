@@ -11,34 +11,32 @@ namespace OnlineShop.Data
             : base(options)
         {
         }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CartProduct> CartProducts { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    // definirea relatiei many-to-many dintre Article si Bookmark
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
-        //    base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-        //    // definire primary key compus
-        //    modelBuilder.Entity<ArticleBookmark>()
-        //        .HasKey(ab => new { ab.Id, ab.ArticleId, ab.BookmarkId });
+            modelBuilder.Entity<CartProduct>()
+                .HasKey(cp => new { cp.Id, cp.ProductId, cp.CartId });
 
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(cp => cp.CartProducts)
+                .HasForeignKey(cp => cp.ProductId);
 
-        //    // definire relatii cu modelele Bookmark si Article (FK)
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Cart)
+                .WithMany(cp => cp.CartProducts)
+                .HasForeignKey(cp => cp.CartId);
+        }
 
-        //    modelBuilder.Entity<ArticleBookmark>()
-        //        .HasOne(ab => ab.Article)
-        //        .WithMany (ab => ab.ArticleBookmarks)
-        //        .HasForeignKey(ab => ab.ArticleId);
-
-        //    modelBuilder.Entity<ArticleBookmark>()
-        //        .HasOne(ab => ab.Bookmark)
-        //        .WithMany(ab => ab.ArticleBookmarks)
-        //        .HasForeignKey(ab => ab.BookmarkId);
-        //}
     }
 }

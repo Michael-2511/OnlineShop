@@ -1,0 +1,28 @@
+﻿@model OnlineShop.Models.CartProduct
+
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+
+@using (Html.BeginForm(controllerName: "Carts", actionName: "Edit",
+      method: FormMethod.Post, routeValues: new { id = Model.ProductId }))
+
+{
+    @Html.Label("Quantity", "Cantitate")
+
+    <br />
+
+    @Html.Editor("Quantity", new { @class = "form-control" })
+    <br />
+
+    @Html.ValidationMessage("Quantity", null, new { @class = "text-danger" })
+
+    <br />
+    <br />
+
+    <button class="btn  btn-primary" type="submit">Modifica cantitatea</button>
+
+}

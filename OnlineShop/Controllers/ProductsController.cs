@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Linq;
 using OnlineShop.Data;
 using OnlineShop.Models;
+using Microsoft.Data.SqlClient;
 
 namespace OnlineShop.Controllers
 {
@@ -13,31 +18,73 @@ namespace OnlineShop.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private IWebHostEnvironment _env;
         public ProductsController(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager
+        RoleManager<IdentityRole> roleManager,
+        IWebHostEnvironment env
         )
         {
             db = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _env = env;
         }
 
-        // [Authorize(Roles = "Inregistrat,Colaborator,Administrator")]
         public IActionResult Index()
         {
             var products = db.Products.Include("Category").Include("User");
+            var search = "";
+            if (Convert.ToString(HttpContext.Request.Query["search"]) !=
+            null)
+            {
+                search =
+                Convert.ToString(HttpContext.Request.Query["search"]).Trim();
+                List<int> productIds = db.Products.Where
+                (
+                p => p.Name.Contains(search)
+                ).Select(p => p.Id).ToList();
+                products = db.Products.Where(product => productIds.Contains(product.Id))
+                                      .Include("Category")
+                                      .Include("User");
 
-            //var products = from product in db.Products
-            //               orderby product.Name
-            //               select product;
+            }
+
+            ViewBag.SearchString = search;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                try 
+                { 
+                    var cart = db.Carts
+                            .Include("User")
+                            .Where(u => u.UserId == _userManager.GetUserId(User))
+                            .First(); 
+                }
+                catch
+                {
+                    Cart cart = new Cart();
+                    cart.UserId = _userManager.GetUserId(User);
+                    db.Carts.Add(cart);
+                    db.SaveChanges();
+                }
+
+            }
 
             ViewBag.Products = products;
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
                 ViewBag.Alert = TempData["messageType"];
+            }
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = "/Products/Index/?search=" + search + "&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = "/Products/Index/?page";
             }
 
             return View();
@@ -97,7 +144,7 @@ namespace OnlineShop.Controllers
                                          .Include("User")
                                          .Include("Reviews")
                                          .Include("Reviews.User")
-                                         .Where(art => art.Id == rev.ProductId)
+                                         .Where(prod => prod.Id == rev.ProductId)
                                          .First();
 
 
@@ -118,23 +165,22 @@ namespace OnlineShop.Controllers
 
             return View();
         }
-        // Se adauga articolul in baza de date
         [Authorize(Roles = "Colaborator, Administrator")]
         [HttpPost]
         public IActionResult New(Product product)
         {
             product.UserId = _userManager.GetUserId(User);
 
-            //try
-            if (ModelState.IsValid)
+            try
+            //if (ModelState.IsValid)
             {
                 db.Products.Add(product);
                 db.SaveChanges();
                 TempData["message"] = "Produsul a fost adaugat";
                 return RedirectToAction("Index");
             }
-            //catch(Exception)
-            else
+            catch(Exception)
+            //else
             {
                 return RedirectToAction("New");
             }
@@ -209,7 +255,7 @@ namespace OnlineShop.Controllers
         public ActionResult Delete(int id)
         {
             Product product = db.Products.Include("Reviews")
-                                         .Where(art => art.Id == id)
+                                         .Where(rev => rev.Id == id)
                                          .First();
 
             if (product.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrator"))
@@ -239,7 +285,50 @@ namespace OnlineShop.Controllers
 
             ViewBag.EsteAdmin = User.IsInRole("Administrator");
 
+            ViewBag.EsteInregistrat = User.IsInRole("Inregistrat");
+
             ViewBag.UserCurent = _userManager.GetUserId(User);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Inregistrat")]
+        public IActionResult AddToCart([FromForm] CartProduct cartp)
+        {
+            if (ModelState.IsValid)
+            {
+                var carts = db.Carts
+                                 .Include("CartProducts")
+                                 .Include("User")
+                                 .Where(c => c.UserId == _userManager.GetUserId(User))
+                                 .FirstOrDefault();
+                cartp.CartId = carts.Id;
+                // Verificam daca avem deja produsul in cos
+                if (db.CartProducts
+                    .Where(cp => cp.CartId == cartp.CartId)
+                    .Where(cp => cp.ProductId == cartp.ProductId)
+                    .Count() > 0)
+                {
+                    TempData["message"] = "Acest produs este deja adaugat in cos";
+                    TempData["messageType"] = "alert-danger";
+                }
+                else
+                {
+                    cartp.Quantity = 1;
+                    db.CartProducts.Add(cartp);
+                    db.SaveChanges();
+
+                    TempData["message"] = "Produsul a fost adaugat in cos";
+                    TempData["messageType"] = "alert-success";
+                }
+
+            }
+            else
+            {
+                TempData["message"] = "Nu s-a putut adauga produsul in cos";
+                TempData["messageType"] = "alert-danger";
+            }
+
+            return Redirect("/Products/Show/" + cartp.ProductId);
         }
     }
 }

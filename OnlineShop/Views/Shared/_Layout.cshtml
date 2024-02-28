@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,20 +20,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Produse</a>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Categorii</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Afisare produse</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="New">Adaugare produs</a>
-                        </li> *@
                         @if (User.IsInRole("Administrator"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Afisare produse</a>
-                            </li>
+                            
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Afisare categorii</a>
@@ -42,27 +35,33 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="New">Adaugare produs</a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Afisare utilizatori</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Afisare cereri</a>
+                            </li>
+
                         }
 
                         @if (User.IsInRole("Colaborator"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Afisare produse</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="New">Adaugare produs</a>
-                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="New">Creeaza cerere produs</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Cererile mele</a>
                             </li>
                         }
 
                         @if (User.IsInRole("Inregistrat"))
                         {
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Afisare produse</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Carts" asp-action="Index">Afisare cos</a>
                             </li>
                         }
                     </ul>
