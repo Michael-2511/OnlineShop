@@ -1,4 +1,5 @@
 There are 4 types of users: unregistered user, registered user, collaborator, administrator.
+
 The collaborator user can add products to the store. They will send requests for addition to the administrator, who can approve or reject them. After approval, the products will be visible in the store.
 
 Products are part of categories. Categories are dynamically created by the administrator. The admin can add new categories directly from the application interface. Also, the admin is the one who can view, edit, and delete categories as needed.
